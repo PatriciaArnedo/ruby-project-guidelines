@@ -27,6 +27,7 @@ class Cli
         elsif choice == 2
             @@user = User.new_user
         elsif choice == 3
+            User.delete_user
         end
 
 

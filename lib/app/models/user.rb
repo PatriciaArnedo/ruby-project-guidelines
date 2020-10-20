@@ -7,8 +7,12 @@ class User < ActiveRecord::Base
 
     def self.login
         username = @@prompt.ask("Please enter your name:")
-        password = @@prompt.mask("Please enter your password:")
-        self.find_by(name: username, password: password)
+        if self.find_by(name: username)
+            password = @@prompt.mask("Please enter your password:")
+            self.find_by(name: username, password: password)
+        else
+            puts "That user does not exist."
+        end
     end
 
     def self.new_user
@@ -22,5 +26,17 @@ class User < ActiveRecord::Base
             self.create(name: username, password: password)
         end
     end
+
+    def self.delete_user
+        username = @@prompt.ask("Which user would you like to delete?")
+        if self.find_by(name: username)
+            password = @@prompt.mask("Please enter this user's password:")
+            User.destroy() if User.find_by(name: username, password: password)
+        else
+            puts "That username is invalid."
+
+        end
+
+    end
     
-end
+end #User Class
