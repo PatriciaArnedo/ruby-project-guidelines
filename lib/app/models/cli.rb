@@ -14,14 +14,16 @@ class Cli
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
+    @@player = @@table[0,0]
+    @@bully = @@table[0,0]
 
-    def title_screen
+    def self.title_screen
         system('clear')
         #prints title screen
         puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
     end
 
-    def auth_sequence
+    def self.auth_sequence
         sleep(1.25)
         prompt = TTY::Prompt.new
 
@@ -40,7 +42,7 @@ class Cli
     end
 
 
-    def gameboard
+    def self.gameboard
         #generates game board with separators
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
             renderer.border.separator = :each_row
@@ -49,25 +51,48 @@ class Cli
         puts render
     end
 
-    def generate_player
+    def self.generate_player
         #generates player at a random location on the board. 
-        @player = @@table[@x = rand(1..4),@y = rand(1..4)]
-        puts "You are at #{@player}!"
-    end
-
-    def generate_bully
-        #generates player at a random location on the board. 
-        @bully = @@table[@bx = rand(1..4),@by = rand(1..4)]
-        puts "Be careful! The bully is at #{@bully}!"
-    end
-
-    def move_up
+        @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
         
-        @player = @@table[@x - 1, @y]
-        puts "You moved up, you are now at #{@player}!"
+        puts "You are at #{@@player}."
     end
 
-    
+    def self.generate_bully
+        #generates bully at a random location on the board. 
+        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)]
+        
+        puts "Be careful! The bully is at #{@@bully}!"
+    end
+
+    def self.move_up
+        #generates new player location up one row
+        new_loc = @@table[@x - 1, @y]
+        
+        #checks that location is not out of bounds 
+        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved up, you are now at #{@@player}."
+        end
+    end
+
+    def self.move_down
+        #generates new player location down one row
+        new_loc = @@table[@x + 1, @y]
+        
+        #checks that location is not out of bounds 
+        if new_loc == nil 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved down, you are now at #{@@player}."
+        end
+    end
+
 
 
 
