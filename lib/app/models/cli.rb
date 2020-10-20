@@ -1,6 +1,8 @@
 require "tty-prompt"
 require "pry"
 require "artii"
+require "tty-cursor"
+require "tty-font"
 
 
 class Cli 
@@ -11,15 +13,17 @@ class Cli
                               ["🏠  5", "🏠  6", "🏠  7", "🏠 8"], 
                               ["🏠  9", "🏠  10", "🏠  11", "🏠 12"], 
                               ["🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
+    @@pastel = Pastel.new
+    @@font = TTY::Font.new(:doom)
 
     def title_screen
         system('clear')
-        puts @@artii.asciify("Trick or Treat!")
+        #prints title screen
+        puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
     end
 
     def auth_sequence
         sleep(2)
-
 
 
     end
@@ -32,7 +36,7 @@ class Cli
         end
         #prints game board
         puts render
-
     end
+
 
 end

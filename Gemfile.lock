@@ -50,6 +50,7 @@ GEM
     tilt (2.0.10)
     tty-color (0.5.2)
     tty-cursor (0.7.1)
+    tty-font (0.5.0)
     tty-prompt (0.22.0)
       pastel (~> 0.8)
       tty-reader (~> 0.8)
@@ -75,11 +76,14 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   artii
+  pastel
   pry
   rake
   require_all
   sinatra-activerecord
   sqlite3
+  tty-cursor
+  tty-font
   tty-prompt
   tty-table
 
