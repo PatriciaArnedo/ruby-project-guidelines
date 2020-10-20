@@ -6,16 +6,14 @@ class User < ActiveRecord::Base
     has_many :games
     has_many :candies, through: :games
     @@prompt = TTY::Prompt.new
+    
 
     def self.login
         username = @@prompt.ask("Please enter your name:")
         if self.find_by(name: username)
-            self.find_by(name: username).password_check   #this is pseudocode because username is a string not an object
+            self.find_by(name: username).password_check
         else
-            puts "That user does not exist."
-            sleep(1)
-            
-            CLI.auth_sequence
+            self.user_dne
         end
     end
 
@@ -34,16 +32,20 @@ class User < ActiveRecord::Base
     end
 
     def self.delete_user
-        ##The method needs to be: 1) ask which user to delete, 2)check to see if that user exits,
-        ##3) if the user doesnt exist, return them to the menu, 4)if the user does exist, ask for the
-        ##password, 5) check the password exists, 6)if password matches destroy the user. Need to figure
-        ##out where to find the user id so i can use it to destroy the entry in the table.
-        @username = @@prompt.ask("Which user would you like to delete?")
-        if self.find_by(name: @username)
-            password = @@prompt.mask("Please enter this user's password:")
-            User.destroy() if User.find_by(name: username, password: password)
+        username = @@prompt.ask("Which user would you like to delete?")
+        if self.find_by(name: username) 
+            user = self.find_by(name: username).password_check
+            if user
+                # binding.pry
+                User.destroy(user.id)
+                puts "\nCongratulations, that user has been officially ghosted!"
+                sleep(2)
+                CLI.title_screen
+            else
+                CLI.title_screen
+            end
         else
-            puts "That username is invalid."
+            self.user_dne
         end
     end
 
@@ -52,8 +54,16 @@ class User < ActiveRecord::Base
         if self.password == password
             self
         else
-            puts "That password was incorrect"
+            puts "\nWe're sorry, but that password was incorrect."
+            sleep(2)
+            return nil
         end
+    end
+
+    def self.user_dne
+        puts "\nWe're sorry, but that user does not exist."
+        sleep(2)
+        CLI.title_screen
     end
 
 

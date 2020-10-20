@@ -22,7 +22,7 @@ class CLI
     end
 
     def self.auth_sequence
-        sleep(1.25)
+        sleep(1)
         prompt = TTY::Prompt.new
 
         selection = prompt.select("Choose an option from the menu below:") do |option|
