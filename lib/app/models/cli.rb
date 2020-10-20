@@ -7,12 +7,15 @@ require "tty-font"
 class CLI 
     @@prompt = TTY::Prompt.new
     @@user = nil
-    @@table = TTY::Table.new([["🏚  1", "🏠  2", "🏠  3", "🏚  4"], 
-                              ["🏠  5", "🏠  6", "🏠  7", "🏠 8"], 
-                              ["🏠  9", "🏠  10", "🏠  11", "🏠 12"], 
-                              ["🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
+    @@table = TTY::Table.new([["0", "1", "2", "3", "4"],
+                              ["1", "🏚  1", "🏠  2", "🏠  3", "🏚  4"], 
+                              ["2", "🏠  5", "🏠  6", "🏠  7", "🏠 8"], 
+                              ["3", "🏠  9", "🏠  10", "🏠  11", "🏠 12"], 
+                              ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
+    @@player = @@table[@x = 0,@y = 0]
+    @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
         system('clear')
@@ -44,7 +47,7 @@ class CLI
     end
 
 
-    def gameboard
+    def self.gameboard
         #generates game board with separators
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
             renderer.border.separator = :each_row
@@ -52,6 +55,83 @@ class CLI
         #prints game board
         puts render
     end
+
+    def self.generate_player
+        #generates player at a random location on the board. 
+        @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
+        
+        puts "You are at #{@@player}."
+    end
+
+    def self.generate_bully
+        #generates bully at a random location on the board. 
+        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)]
+        
+        puts "Be careful! The bully is at #{@@bully}!"
+    end
+
+    def self.move_up
+        #generates new player location up one row
+        new_loc = @@table[@x - 1, @y]
+        
+        #checks that location is not out of bounds 
+        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved up, you are now at #{@@player}."
+        end
+    end
+
+    def self.move_down
+        #generates new player location down one row
+        new_loc = @@table[@x + 1, @y]
+        
+        #checks that location is not out of bounds 
+        if new_loc == nil 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved down, you are now at #{@@player}."
+        end
+    end
+
+    def self.move_left
+        #generates new player location left one column
+        new_loc = @@table[@x, @y - 1]
+        
+        #checks that location is not out of bounds 
+        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved left, you are now at #{@@player}."
+        end
+    end
+
+    def self.move_right
+         #checks that location is not out of bounds 
+        if @y + 1 > 4
+            new_loc = @@player
+        else
+            new_loc = @@table[@x, @y + 1]
+        end
+        
+        #prints this if new location was out of bounds 
+        if new_loc == @@player
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            #gives new player location
+            @@player = new_loc
+            puts "You moved right, you are now at #{@@player}."
+        end
+        
+    end
+
 
 
 end

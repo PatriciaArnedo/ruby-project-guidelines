@@ -1,8 +1,9 @@
 require_relative '../config/environment'
 
-CLI.title_screen
-
-CLI.gameboard
 
 
-
+Cli.title_screen
+Cli.gameboard
+Cli.generate_player
+Cli.move_down
+Cli.generate_bully
