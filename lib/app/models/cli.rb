@@ -14,8 +14,8 @@ class Cli
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player = @@table[0,0]
-    @@bully = @@table[0,0]
+    @@player = @@table[@x = 0,@y = 0]
+    @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
         system('clear')
@@ -93,6 +93,39 @@ class Cli
         end
     end
 
+    def self.move_left
+        #generates new player location left one column
+        new_loc = @@table[@x, @y - 1]
+        
+        #checks that location is not out of bounds 
+        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            @@player = new_loc
+            puts "You moved left, you are now at #{@@player}."
+        end
+    end
+
+    def self.move_right
+         #checks that location is not out of bounds 
+        if @y + 1 > 4
+            new_loc = @@player
+        else
+            new_loc = @@table[@x, @y + 1]
+        end
+        
+        #prints this if new location was out of bounds 
+        if new_loc == @@player
+            puts "You cannot go there."
+            puts "You are at #{@@player}."
+        else
+            #gives new player location
+            @@player = new_loc
+            puts "You moved right, you are now at #{@@player}."
+        end
+        
+    end
 
 
 
