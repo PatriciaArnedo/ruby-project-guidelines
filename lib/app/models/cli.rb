@@ -7,10 +7,11 @@ require "tty-font"
 class Cli 
     @@prompt = TTY::Prompt.new
     @@user = nil
-    @@table = TTY::Table.new([["🏚  1", "🏠  2", "🏠  3", "🏚  4"], 
-                              ["🏠  5", "🏠  6", "🏠  7", "🏠 8"], 
-                              ["🏠  9", "🏠  10", "🏠  11", "🏠 12"], 
-                              ["🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
+    @@table = TTY::Table.new([["0", "1", "2", "3", "4"],
+                              ["1", "🏚  1", "🏠  2", "🏠  3", "🏚  4"], 
+                              ["2", "🏠  5", "🏠  6", "🏠  7", "🏠 8"], 
+                              ["3", "🏠  9", "🏠  10", "🏠  11", "🏠 12"], 
+                              ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
 
@@ -47,6 +48,27 @@ class Cli
         #prints game board
         puts render
     end
+
+    def generate_player
+        #generates player at a random location on the board. 
+        @player = @@table[@x = rand(1..4),@y = rand(1..4)]
+        puts "You are at #{@player}!"
+    end
+
+    def generate_bully
+        #generates player at a random location on the board. 
+        @bully = @@table[@bx = rand(1..4),@by = rand(1..4)]
+        puts "Be careful! The bully is at #{@bully}!"
+    end
+
+    def move_up
+        
+        @player = @@table[@x - 1, @y]
+        puts "You moved up, you are now at #{@player}!"
+    end
+
+    
+
 
 
 end
