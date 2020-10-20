@@ -14,7 +14,7 @@ class CLI
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player = @@table[@x = 0,@y = 0]
+    # @@player = @@table[@x = 0,@y = 0]
     @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
@@ -42,7 +42,7 @@ class CLI
             User.delete_user
         end
 
-        binding.pry
+        # binding.pry
 
     end
 
@@ -63,19 +63,14 @@ class CLI
         puts "You are at #{@@player}."
     end
 
-    def self.generate_bully
-        #generates bully at a random location on the board. 
-        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)]
-        
-        puts "Be careful! The bully is at #{@@bully}!"
-    end
-
+    
     def self.move_up
         #generates new player location up one row
         new_loc = @@table[@x - 1, @y]
         
         #checks that location is not out of bounds 
         if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
         else
@@ -83,13 +78,14 @@ class CLI
             puts "You moved up, you are now at #{@@player}."
         end
     end
-
+    
     def self.move_down
         #generates new player location down one row
         new_loc = @@table[@x + 1, @y]
         
         #checks that location is not out of bounds 
         if new_loc == nil 
+            @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
         else
@@ -97,13 +93,14 @@ class CLI
             puts "You moved down, you are now at #{@@player}."
         end
     end
-
+    
     def self.move_left
         #generates new player location left one column
         new_loc = @@table[@x, @y - 1]
         
         #checks that location is not out of bounds 
         if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+            @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
         else
@@ -111,9 +108,9 @@ class CLI
             puts "You moved left, you are now at #{@@player}."
         end
     end
-
+    
     def self.move_right
-         #checks that location is not out of bounds 
+        #checks that location is not out of bounds 
         if @y + 1 > 4
             new_loc = @@player
         else
@@ -122,6 +119,7 @@ class CLI
         
         #prints this if new location was out of bounds 
         if new_loc == @@player
+            @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
         else
@@ -131,7 +129,38 @@ class CLI
         end
         
     end
+    
+    def self.generate_bully
+        #generates bully at a random location on the board. 
+        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)]
+        
+        puts "Be careful! The bully is at #{@@bully}!"
+    end
 
+    def self.prompt_user_movement
+        sleep(1)
+        prompt = TTY::Prompt.new
 
+        turns = 0
+        while turns <= 10 do
+            selection = prompt.select("Chose a direction to move in:") do |option|
+                option.choice "Up"
+                option.choice "Down"
+                option.choice "Left"
+                option.choice "Right"
+            end
+        
+            if selection == "Up"
+                self.move_up
+            elsif selection == "Down"
+                self.move_down
+            elsif selection == "Left"
+                self.move_left
+            elsif selection == "Right"
+                self.move_right
+            end
+            turns +=1
+        end
+    end
 
 end
