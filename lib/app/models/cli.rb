@@ -42,7 +42,7 @@ class CLI
             User.delete_user
         end
 
-        binding.pry
+        # binding.pry
 
     end
 
