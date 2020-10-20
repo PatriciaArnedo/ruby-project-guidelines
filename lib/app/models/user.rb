@@ -6,16 +6,19 @@ class User < ActiveRecord::Base
     @@prompt = TTY::Prompt.new
 
     def self.login
+        ##Similar to .delete_user, 
         username = @@prompt.ask("Please enter your name:")
         if self.find_by(name: username)
             password = @@prompt.mask("Please enter your password:")
-            self.find_by(name: username, password: password)
+            begin_game_here if self.find_by(name: username, password: password)
+            #need to create a begin_game method
         else
             puts "That user does not exist."
         end
     end
 
     def self.new_user
+        ##This method functions as expected.
         username = @@prompt.ask("Please enter your name:")
         password = @@prompt.mask("Please enter a password:")
         confirm_password = @@prompt.mask("Please confirm your password:")
@@ -28,6 +31,10 @@ class User < ActiveRecord::Base
     end
 
     def self.delete_user
+        ##The method needs to be: 1) ask which user to delete, 2)check to see if that user exits,
+        ##3) if the user doesnt exist, return them to the menu, 4)if the user does exist, ask for the
+        ##password, 5) check the password exists, 6)if password matches destroy the user. Need to figure
+        ##out where to find the user id so i can use it to destroy the entry in the table.
         username = @@prompt.ask("Which user would you like to delete?")
         if self.find_by(name: username)
             password = @@prompt.mask("Please enter this user's password:")
