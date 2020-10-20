@@ -4,7 +4,7 @@ require "tty-cursor"
 require "tty-font"
 
 
-class Cli 
+class CLI 
     @@prompt = TTY::Prompt.new
     @@user = nil
     @@table = TTY::Table.new([["🏚  1", "🏠  2", "🏠  3", "🏚  4"], 
@@ -14,27 +14,32 @@ class Cli
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
 
-    def title_screen
+    def self.title_screen
         system('clear')
         #prints title screen
         puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
+        self.auth_sequence
     end
 
-    def auth_sequence
+    def self.auth_sequence
         sleep(1.25)
         prompt = TTY::Prompt.new
 
-        options = {"Login" => 1, "New User" => 2, "Delete Account" => 3}
-
-        choice = prompt.select("Choose an option from the menu below:", options)
+        selection = prompt.select("Choose an option from the menu below:") do |option|
+            option.choice "Log In"
+            option.choice "New User"
+            option.choice "Delete User"
+        end
         
-        if choice == 1
+        if selection == "Log In"
             @@user = User.login
-        elsif choice == 2
+        elsif selection == "New User"
             @@user = User.new_user
-        elsif choice == 3
+        elsif selection == "Delete User"
             User.delete_user
         end
+
+        binding.pry
 
     end
 

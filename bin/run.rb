@@ -1,8 +1,9 @@
 require_relative '../config/environment'
 
-cli = Cli.new
+cli = CLI.new
 
-cli.title_screen
+CLI.title_screen
+
 cli.gameboard
 
 
