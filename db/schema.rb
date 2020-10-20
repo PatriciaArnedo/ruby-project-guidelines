@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_220631) do
+ActiveRecord::Schema.define(version: 2020_10_20_214926) do
 
   create_table "candies", force: :cascade do |t|
     t.string "name"
     t.integer "candy_value"
-    t.integer "game_id"
-    t.boolean "found"
   end
 
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
     t.integer "turn_count"
+    t.string "bully_location"
+    t.string "bag"
   end
 
   create_table "users", force: :cascade do |t|
