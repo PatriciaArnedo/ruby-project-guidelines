@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_214926) do
+ActiveRecord::Schema.define(version: 2020_10_21_190513) do
 
   create_table "candies", force: :cascade do |t|
     t.string "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_214926) do
     t.integer "turn_count"
     t.string "bully_location"
     t.string "bag"
+    t.boolean "game_complete"
   end
 
   create_table "users", force: :cascade do |t|
