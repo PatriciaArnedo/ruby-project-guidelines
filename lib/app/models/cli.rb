@@ -20,7 +20,7 @@ class CLI
         system('clear')
         #prints title screen
         puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
-        #self.auth_sequence
+        self.auth_sequence
     end
 
     def self.auth_sequence
@@ -59,6 +59,25 @@ class CLI
     end
     
     @@player = self.generate_player
+
+    def self.gameboard
+        #generates game board with separators
+        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
+            renderer.border.separator = :each_row
+            renderer.filter = ->(val, row_index, col_index) do
+                if row_index == @x and col_index == @y
+                    val = "\n You 👻"
+                else
+                    val
+                end
+            end
+            
+        end
+
+        #prints game board
+        puts render
+        self.print_player_loc
+    end
         
     
     def self.move_up
@@ -187,25 +206,7 @@ class CLI
         end
     end
 
-    def self.gameboard
-        #generates game board with separators
-        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
-            renderer.border.separator = :each_row
-            renderer.filter = ->(val, row_index, col_index) do
-                if row_index == @x and col_index == @y
-                    val = "   👻"
-                else
-                    val
-                end
-            end
-            
-        end
-
-        #prints game board
-        puts render
-        self.print_player_loc
-    end
-
+    
     
     def self.generate_bully
         #generates bully at a random location on the board. 
