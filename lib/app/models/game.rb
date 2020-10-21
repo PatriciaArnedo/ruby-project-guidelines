@@ -8,10 +8,6 @@ class Game < ActiveRecord::Base
 
     @@prompt = TTY::Prompt.new
 
-    # def save
-    #     Game.create(name, user_id, bag, turn_count, bully_location)
-    # end
-
     def self.load(user)
         saved_games = self.where(user_id: user.id)
         # binding.pry
@@ -31,7 +27,8 @@ class Game < ActiveRecord::Base
         # binding.pry
         Game.create(name: name, user_id: current_game.user_id, 
             turn_count: current_game.turn_count, 
-            bully_location: current_game.bully_location, bag: current_game.bag
+            bully_location: current_game.bully_location, 
+            bag: current_game.bag, game_complete: false
             )
         puts "Congratulations, your game has been saved as '#{current_game.name}.'"
         sleep(2)
@@ -40,7 +37,9 @@ class Game < ActiveRecord::Base
         CLI.title_screen
     end
 
-    
+    def complete_game
+        self.game_complete = true
+    end
 
 
 end #Game Class

@@ -57,10 +57,11 @@ class CLI
         end
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
-            @@current_game = Game.new(user_id: @@user.id)
+            @@current_game = Game.new(user_id: @@user.id, game_complete: false)
+            Game.start_game(current_game)
         elsif selection == "I suppose I had better finish one I've already started"
-            self.load_game_sequence
-            # load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
+            # self.load_game_sequence
+            Game.start_game(self.load_game_sequence)
         end
     end
     
@@ -71,7 +72,6 @@ class CLI
         load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
             #prints the saved game names to the screen
         @@current_game = Game.load(@@user).where(name: load_selection)
-        binding.pry
             #current_game becomes the game with the same name and user_id as the current user.
     end
 
