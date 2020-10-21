@@ -14,14 +14,13 @@ class CLI
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player = @@table[@x = 0,@y = 0]
     @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
         system('clear')
         #prints title screen
         puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
-        self.auth_sequence
+        #self.auth_sequence
     end
 
     def self.auth_sequence
@@ -46,24 +45,34 @@ class CLI
 
     end
 
-
-
-    def self.gameboard
-        #generates game board with separators
-        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
-            renderer.border.separator = :each_row
-        end
-        #prints game board
-        puts render
-    end
-
     def self.generate_player
         #generates player at a random location on the board. 
         @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
         
         
         puts "You are at #{@@player}."
+        @@player
     end
+    
+
+    @@player = self.generate_player
+
+    def self.gameboard
+        #generates game board with separators
+        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
+            renderer.border.separator = :each_row
+            renderer.filter = ->(val, row_index, col_index) do
+                if row_index == 3 and col_index == 3
+                  @@pastel.red.on_yellow(val)
+                else
+                  val
+                end
+              end
+        end
+        #prints game board
+        puts render
+    end
+
 
     
     def self.move_up
@@ -103,18 +112,22 @@ class CLI
     end
     
     def self.move_left
-        #generates new player location left one column
-        new_loc = @@table[@x, @y=@y - 1]
-        
         #checks that location is not out of bounds 
-        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+        if @y - 1 < 1 
+            new_loc = @@player
+        else
+            new_loc = @@table[@x, @y=@y - 1]
+        end
+        
+        #prints this if new location was out of bounds 
+        if new_loc == @@player
             @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
         else
             #changes player location to new location
             @@player = new_loc
-            puts "You moved left, you are now at #{@@player}."
+            puts "You moved right, you are now at #{@@player}."
         end
     end
     
@@ -147,7 +160,7 @@ class CLI
         #repeats prompts for ten turns
         turns = 0
         while turns <= 10 do
-            selection = prompt.select("Chose a direction to move in:") do |option|
+            selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
                 option.choice "Down"
                 option.choice "Left"
@@ -168,6 +181,8 @@ class CLI
             turns +=1
         end
     end
+
+
     
     def self.generate_bully
         #generates bully at a random location on the board. 
