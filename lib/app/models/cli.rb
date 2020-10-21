@@ -14,7 +14,6 @@ class CLI
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player = @@table[@x = 0,@y = 0]
     @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
@@ -80,30 +79,54 @@ class CLI
     end
 
 
-    def self.gameboard
-        #generates game board with separators
-        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
-            renderer.border.separator = :each_row
-        end
-        #prints game board
-        puts render
-    end
+<<<<<<< HEAD
+=======
+
+    #PLAYER MOVEMENT LOGIC METHODS:
 
     def self.generate_player
         #generates player at a random location on the board. 
         @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
-        
-        
-        puts "You are at #{@@player}."
     end
 
+    def self.print_player_loc
+        puts "You are at #{@@player}."
+        @@player
+    end
+    
+    @@player = self.generate_player
+
+>>>>>>> 82f0991cb29f570ffa342016ee9a6542159da2b5
+    def self.gameboard
+        #generates game board with separators
+        render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
+            renderer.border.separator = :each_row
+            renderer.filter = ->(val, row_index, col_index) do
+                if row_index == @x and col_index == @y
+                    val = "\n You 👻"
+                else
+                    val
+                end
+            end
+            
+        end
+
+        #prints game board
+        puts render
+        self.print_player_loc
+    end
+        
     
     def self.move_up
-        #generates new player location up one row
-        new_loc = @@table[@x=@x - 1, @y]
-        
         #checks that location is not out of bounds 
-        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+        if @x - 1 < 1 
+            new_loc = @@player
+        else
+            new_loc = @@table[@x= @x-1, @y]
+        end
+        
+        #prints this if new location was out of bounds 
+        if new_loc == @@player
             @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
@@ -112,6 +135,7 @@ class CLI
             @@player = new_loc
             puts "You moved up, you are now at #{@@player}."
         end
+        @@player
     end
     
     def self.move_down
@@ -130,16 +154,21 @@ class CLI
         else
             #changes player location to new location
             @@player = new_loc
-            puts "You moved right, you are now at #{@@player}."
+            puts "You moved down, you are now at #{@@player}."
         end
+        @@player
     end
     
     def self.move_left
-        #generates new player location left one column
-        new_loc = @@table[@x, @y=@y - 1]
-        
         #checks that location is not out of bounds 
-        if new_loc == "1" || new_loc == "2" || new_loc == "3" || new_loc == "4" 
+        if @y - 1 < 1 
+            new_loc = @@player
+        else
+            new_loc = @@table[@x, @y=@y - 1]
+        end
+        
+        #prints this if new location was out of bounds 
+        if new_loc == @@player
             @@player = @@player
             puts "You cannot go there."
             puts "You are at #{@@player}."
@@ -148,6 +177,7 @@ class CLI
             @@player = new_loc
             puts "You moved left, you are now at #{@@player}."
         end
+        @@player
     end
     
     def self.move_right
@@ -168,7 +198,7 @@ class CLI
             @@player = new_loc
             puts "You moved right, you are now at #{@@player}."
         end
-        
+        @@player    
     end
     
     
@@ -179,7 +209,7 @@ class CLI
         #repeats prompts for ten turns
         turns = 0
         while turns <= 10 do
-            selection = prompt.select("Chose a direction to move in:") do |option|
+            selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
                 option.choice "Down"
                 option.choice "Left"
@@ -188,18 +218,32 @@ class CLI
             
             #calls movement methods for each selection
             if selection == "Up"
+                system('clear')
+                self.title_screen
                 self.move_up
+                self.gameboard
             elsif selection == "Down"
+                system('clear')
+                self.title_screen
                 self.move_down
+                self.gameboard
             elsif selection == "Left"
+                system('clear')
+                self.title_screen
                 self.move_left
+                self.gameboard
             elsif selection == "Right"
+                system('clear')
+                self.title_screen
                 self.move_right
+                self.gameboard
             end
             #increments turns
             turns +=1
         end
     end
+
+    
     
     def self.generate_bully
         #generates bully at a random location on the board. 
@@ -207,5 +251,7 @@ class CLI
         
         puts "Be careful! The bully is at #{@@bully}!"
     end
-end
+
+end #CLI class
+
 
