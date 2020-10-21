@@ -48,8 +48,9 @@ class CLI
     def self.generate_player
         #generates player at a random location on the board. 
         @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
-        
-        
+    end
+
+    def self.print_player_loc
         puts "You are at #{@@player}."
         @@player
     end
@@ -62,17 +63,19 @@ class CLI
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
             renderer.border.separator = :each_row
             renderer.filter = ->(val, row_index, col_index) do
-                if row_index == 3 and col_index == 3
-                  @@pastel.red.on_yellow(val)
+                if row_index == @x and col_index == @y
+                  val = "   🚶‍♂️"
                 else
                   val
                 end
               end
+              
         end
         #prints game board
         puts render
+        self.print_player_loc
     end
-
+    
 
     
     def self.move_up
@@ -169,12 +172,24 @@ class CLI
             
             #calls movement methods for each selection
             if selection == "Up"
+                system('clear')
+                self.title_screen
+                self.gameboard
                 self.move_up
             elsif selection == "Down"
+                system('clear')
+                self.title_screen
+                self.gameboard
                 self.move_down
             elsif selection == "Left"
+                system('clear')
+                self.title_screen
+                self.gameboard
                 self.move_left
             elsif selection == "Right"
+                system('clear')
+                self.title_screen
+                self.gameboard
                 self.move_right
             end
             #increments turns
