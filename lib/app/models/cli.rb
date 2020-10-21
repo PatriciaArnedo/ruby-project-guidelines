@@ -20,8 +20,12 @@ class CLI
     def self.title_screen
         system('clear')
         #prints title screen
-        puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
+        self.game_header
         self.auth_sequence
+    end
+
+    def self.game_header
+        puts @@pastel.red(@@font.write("Trick or Treat!", letter_spacing: 1))
     end
 
     def self.auth_sequence
@@ -41,9 +45,25 @@ class CLI
         elsif selection == "Delete User"
             User.delete_user
         end
+    end
 
-        # binding.pry
+    def self.game_menu #displays the game menu for new or load after you log in or create a new user.
+        sleep(1)
+        system('clear')
+        self.game_header
+        prompt = TTY::Prompt.new
 
+        selection = prompt.select("What would you like to do today?\n") do |option|
+            option.choice "Ooh, ooh, I want to start a new game!!!\n"
+            option.choice "I suppose I had better finish one I've already started"
+        end
+        
+        if selection == "Ooh, ooh, I want to start a new game!!!\n"
+            current_game = Game.new(user_id: @@user.id)
+        elsif selection == "I suppose I had better finish one I've already started"
+            #load screen prompt where there is a list of all saved games for current user
+            #puts "It looks like you don't have any games saved." if the user has no saved game instances.
+        end
     end
 
 
