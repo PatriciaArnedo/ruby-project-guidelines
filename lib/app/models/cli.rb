@@ -80,8 +80,6 @@ class CLI
     end
 
 
-
-
     def self.gameboard
         #generates game board with separators
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
