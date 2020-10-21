@@ -17,3 +17,4 @@ candies = [
 ]
 
 Candy.create(candies)
+
