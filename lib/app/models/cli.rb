@@ -22,7 +22,7 @@ class CLI
     end
 
     def self.game_header
-        puts @@pastel.red(@@font.write("Trick or Treat!", letter_spacing: 1))
+        puts @@pastel.red(@@font.write("Trick or Treat !", letter_spacing: 1))
     end
 
     def self.auth_sequence
@@ -106,6 +106,8 @@ class CLI
 
     def self.gameboard
         #generates game board with separators
+        system('clear')
+        self.game_header
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
             renderer.border.separator = :each_row
             renderer.filter = ->(val, row_index, col_index) do
@@ -115,7 +117,7 @@ class CLI
                     val
                 end
                 if row_index == @bx and col_index == @by
-                    val = "\nBully 👿"
+                    val = "\n Bully 👿"
                 else
                     val
                 end
@@ -137,7 +139,7 @@ class CLI
         else
             new_loc = @@table[@x= @x-1, @y]
         end
-        self.boardgame_movement(new_loc)
+        self.player_movement(new_loc)
     end
     
     def self.player_move_down
@@ -147,7 +149,7 @@ class CLI
         else
             new_loc = @@table[@x= @x+1, @y]
         end
-        self.boardgame_movement(new_loc)
+        self.player_movement(new_loc)
     end
     
     def self.player_move_left
@@ -158,7 +160,7 @@ class CLI
         else
             new_loc = @@table[@x, @y=@y - 1]
         end
-        self.boardgame_movement(new_loc)
+        self.player_movement(new_loc)
     end
     
     def self.player_move_right
@@ -169,11 +171,74 @@ class CLI
             #changes player location to new location
             new_loc = @@table[@x, @y=@y + 1]
         end
-        self.boardgame_movement(new_loc) 
+        self.player_movement(new_loc) 
     end
 
+    def self.bully_move_up
+        #checks that location is not out of bounds 
+        if @bx - 1 < 1 
+            new_loc = @@bully
+        else
+            new_loc = @@bully[@bx = @bx - 1, @by]
+        end
+        self.bully_movement(new_loc)
+    end
     
-    def self.boardgame_movement(location)
+    def self.bully_move_down
+        #checks that location is not out of bounds 
+        if @bx + 1 > 4 
+            new_loc = @@bully
+        else
+            new_loc = @@bully[@bx = @bx + 1, @by]
+        end
+        self.bully_movement(new_loc)
+    end
+    
+    def self.bully_move_left
+        #checks that location is not out of bounds 
+        new_loc = @@bully
+        if @by - 1 < 1 
+            new_loc = @@bully
+        else
+            new_loc = @@bully[@bx, @by=@by - 1]
+        end
+        self.bully_movement(new_loc)
+    end
+    
+    def self.bully_move_right
+        #checks that location is not out of bounds 
+        if @by + 1 > 4 
+            new_loc = @@bully
+        else
+            #changes player location to new location
+            new_loc = @@bully[@bx, @by=@by + 1]
+        end
+        self.bully_movement(new_loc) 
+    end
+
+    def self.randomize_bully_mvmnt
+        array = [
+                 self.bully_move_right, 
+                 self.bully_move_left,
+                 self.bully_move_up,
+                 self.bully_move_down
+                ]
+            array.sample
+    end
+
+
+
+    def self.bully_movement(location)
+        #keeps player the same if location is out of bounds
+        if location == @@bully
+            @@bully = @@bully
+        else
+            #changes player location to new location
+            @@bully = location
+        end    
+    end
+
+    def self.player_movement(location)
         #keeps player the same if location is out of bounds
         if location == @@player
             @@player = @@player
@@ -189,7 +254,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        while turns <= 15 do
+        while turns <= 10 do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
                 option.choice "Down"
@@ -201,21 +266,25 @@ class CLI
             if selection == "Up"
                 system('clear')
                 self.game_header
+                #self.randomize_bully_mvmnt
                 self.player_move_up
                 self.gameboard
             elsif selection == "Down"
                 system('clear')
                 self.game_header
+                #self.randomize_bully_mvmnt
                 self.player_move_down
                 self.gameboard
             elsif selection == "Left"
                 system('clear')
                 self.game_header
+                #self.randomize_bully_mvmnt
                 self.player_move_left
                 self.gameboard
             elsif selection == "Right"
                 system('clear')
                 self.game_header
+                #self.randomize_bully_mvmnt
                 self.player_move_right
                 self.gameboard
             end
