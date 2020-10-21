@@ -14,7 +14,6 @@ class Game < ActiveRecord::Base
 
     def self.load(user)
         self.where(user_id: user.id)
-        # binding.pry
     end
 end #Game Class
 

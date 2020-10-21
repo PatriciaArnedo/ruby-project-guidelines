@@ -19,8 +19,7 @@ class CLI
 
     def self.title_screen
         system('clear')
-        #prints title screen
-        self.game_header
+        self.game_header #prints title screen
         self.auth_sequence
     end
 
@@ -52,7 +51,6 @@ class CLI
         system('clear')
         self.game_header
         prompt = TTY::Prompt.new
-        load_prompt = TTY::Prompt.new
 
         selection = prompt.select("What would you like to do today?\n") do |option|
             option.choice "Ooh, ooh, I want to start a new game!!!\n"
@@ -60,13 +58,27 @@ class CLI
         end
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
-            current_game = Game.new(user_id: @@user.id)
+            @@current_game = Game.new(user_id: @@user.id)
         elsif selection == "I suppose I had better finish one I've already started"
-            load_selection = load_prompt.select("Which game would you like to load?\n", Game.load(@@user))
-            #load screen prompt where there is a list of all saved games for current user
-            #puts "It looks like you don't have any games saved." if the user has no saved game instances.
+            self.load_game_sequence
+            # load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
         end
     end
+    
+    def self.load_game_sequence #Changes prompt choices from object locations, to their saved names
+        load_prompt = TTY::Prompt.new
+        sleep(1)
+        load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
+            #prints the saved game names to the screen
+        @@current_game = Game.load(@@user).where(name: load_selection)
+        binding.pry
+            #current_game becomes the game with the same name and user_id as the current user.
+    end
+
+    def self.load_name
+        Game.load(@@user).map {|game| game.name}
+    end
+
 
 
 
