@@ -64,6 +64,7 @@ class CLI
         end
     end
     
+
     def self.load_game_sequence #Changes prompt choices from object locations, to their saved names
         load_prompt = TTY::Prompt.new
         sleep(1)
@@ -79,24 +80,6 @@ class CLI
     end
 
 
-<<<<<<< HEAD
-=======
-
-    #PLAYER MOVEMENT LOGIC METHODS:
-
-    def self.generate_player
-        #generates player at a random location on the board. 
-        @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
-    end
-
-    def self.print_player_loc
-        puts "You are at #{@@player}."
-        @@player
-    end
-    
-    @@player = self.generate_player
-
->>>>>>> 82f0991cb29f570ffa342016ee9a6542159da2b5
     def self.gameboard
         #generates game board with separators
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
