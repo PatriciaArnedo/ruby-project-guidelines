@@ -14,7 +14,6 @@ class CLI
                               ["4", "🏠  13", "🏚  14", "🏠  15", "🏠 16"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@bully = @@table[@bx = 0,@by = 0]
 
     def self.title_screen
         system('clear')
@@ -87,12 +86,23 @@ class CLI
         @@player = @@table[@x = rand(1..4),@y = rand(1..4)]
     end
 
+    def self.generate_bully
+        #generates bully at a random location on the board. 
+        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)] 
+    end
+
+    def self.print_bully_loc
+        puts "Be careful! The bully is at #{@@bully}!"
+        @@bully
+    end
+
     def self.print_player_loc
         puts "You are at #{@@player}."
         @@player
     end
     
     @@player = self.generate_player
+    @@bully = self.generate_bully
 
     def self.gameboard
         #generates game board with separators
@@ -104,6 +114,11 @@ class CLI
                 else
                     val
                 end
+                if row_index == @bx and col_index == @by
+                    val = "\nBully 👿"
+                else
+                    val
+                end
             end
             
         end
@@ -111,101 +126,70 @@ class CLI
         #prints game board
         puts render
         self.print_player_loc
+        self.print_bully_loc
     end
         
     
-    def self.move_up
+    def self.player_move_up
         #checks that location is not out of bounds 
         if @x - 1 < 1 
             new_loc = @@player
         else
             new_loc = @@table[@x= @x-1, @y]
         end
-        
-        #prints this if new location was out of bounds 
-        if new_loc == @@player
-            @@player = @@player
-            puts "You cannot go there."
-            puts "You are at #{@@player}."
-        else
-            #changes player location to new location
-            @@player = new_loc
-            puts "You moved up, you are now at #{@@player}."
-        end
-        @@player
+        self.boardgame_movement(new_loc)
     end
     
-    def self.move_down
+    def self.player_move_down
         #checks that location is not out of bounds 
         if @x + 1 > 4 
             new_loc = @@player
         else
             new_loc = @@table[@x= @x+1, @y]
         end
-        
-        #prints this if new location was out of bounds 
-        if new_loc == @@player
-            @@player = @@player
-            puts "You cannot go there."
-            puts "You are at #{@@player}."
-        else
-            #changes player location to new location
-            @@player = new_loc
-            puts "You moved down, you are now at #{@@player}."
-        end
-        @@player
+        self.boardgame_movement(new_loc)
     end
     
-    def self.move_left
+    def self.player_move_left
         #checks that location is not out of bounds 
+        new_loc = @@player
         if @y - 1 < 1 
             new_loc = @@player
         else
             new_loc = @@table[@x, @y=@y - 1]
         end
-        
-        #prints this if new location was out of bounds 
-        if new_loc == @@player
-            @@player = @@player
-            puts "You cannot go there."
-            puts "You are at #{@@player}."
-        else
-            #changes player location to new location
-            @@player = new_loc
-            puts "You moved left, you are now at #{@@player}."
-        end
-        @@player
+        self.boardgame_movement(new_loc)
     end
     
-    def self.move_right
+    def self.player_move_right
         #checks that location is not out of bounds 
         if @y + 1 > 4 
             new_loc = @@player
         else
+            #changes player location to new location
             new_loc = @@table[@x, @y=@y + 1]
         end
-        
-        #prints this if new location was out of bounds 
-        if new_loc == @@player
+        self.boardgame_movement(new_loc) 
+    end
+
+    
+    def self.boardgame_movement(location)
+        #keeps player the same if location is out of bounds
+        if location == @@player
             @@player = @@player
-            puts "You cannot go there."
-            puts "You are at #{@@player}."
         else
             #changes player location to new location
-            @@player = new_loc
-            puts "You moved right, you are now at #{@@player}."
-        end
-        @@player    
+            @@player = location
+        end    
     end
     
-    
     def self.prompt_user_movement
-        sleep(1)
+        sleep(0.5)
         prompt = TTY::Prompt.new
         
-        #repeats prompts for ten turns
+        #repeats prompts for n turns
         turns = 0
-        while turns <= 10 do
+        while turns <= 15 do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
                 option.choice "Down"
@@ -216,23 +200,23 @@ class CLI
             #calls movement methods for each selection
             if selection == "Up"
                 system('clear')
-                self.title_screen
-                self.move_up
+                self.game_header
+                self.player_move_up
                 self.gameboard
             elsif selection == "Down"
                 system('clear')
-                self.title_screen
-                self.move_down
+                self.game_header
+                self.player_move_down
                 self.gameboard
             elsif selection == "Left"
                 system('clear')
-                self.title_screen
-                self.move_left
+                self.game_header
+                self.player_move_left
                 self.gameboard
             elsif selection == "Right"
                 system('clear')
-                self.title_screen
-                self.move_right
+                self.game_header
+                self.player_move_right
                 self.gameboard
             end
             #increments turns
@@ -242,12 +226,7 @@ class CLI
 
     
     
-    def self.generate_bully
-        #generates bully at a random location on the board. 
-        @@bully = @@table[@bx = rand(1..4), @by = rand(1..4)]
-        
-        puts "Be careful! The bully is at #{@@bully}!"
-    end
+    
 
 end #CLI class
 
