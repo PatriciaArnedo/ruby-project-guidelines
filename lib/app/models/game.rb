@@ -8,17 +8,13 @@ class Game < ActiveRecord::Base
 
     @@prompt = TTY::Prompt.new
 
-    def save
-        Game.create(name, user, bag, turncount, bully_location)
+    # def save
+    #     Game.create(name, user_id, bag, turn_count, bully_location)
+    # end
+
+    def self.load(user)
+        self.where(user_id: user.id)
+        # binding.pry
     end
-
-    def self.load
-        #this method will require a special prompt based on a list generated
-        #for the user to cycle through after login when they select "I suppose..."
-        #It will be referenced under the elsif of line 63
-    end
-
-    
-
-end
+end #Game Class
 

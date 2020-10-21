@@ -52,6 +52,7 @@ class CLI
         system('clear')
         self.game_header
         prompt = TTY::Prompt.new
+        load_prompt = TTY::Prompt.new
 
         selection = prompt.select("What would you like to do today?\n") do |option|
             option.choice "Ooh, ooh, I want to start a new game!!!\n"
@@ -61,6 +62,7 @@ class CLI
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             current_game = Game.new(user_id: @@user.id)
         elsif selection == "I suppose I had better finish one I've already started"
+            load_selection = load_prompt.select("Which game would you like to load?\n", Game.load(@@user))
             #load screen prompt where there is a list of all saved games for current user
             #puts "It looks like you don't have any games saved." if the user has no saved game instances.
         end
