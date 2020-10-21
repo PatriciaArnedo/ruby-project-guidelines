@@ -217,17 +217,6 @@ class CLI
         self.bully_movement(new_loc) 
     end
 
-    def self.randomize_bully_mvmnt
-        array = [
-                 self.bully_move_right, 
-                 self.bully_move_left,
-                 self.bully_move_up,
-                 self.bully_move_down
-                ]
-            array.sample
-    end
-
-
 
     def self.bully_movement(location)
         #keeps player the same if location is out of bounds
