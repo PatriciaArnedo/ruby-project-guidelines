@@ -10,10 +10,6 @@ class Game < ActiveRecord::Base
     @@prompt = TTY::Prompt.new
 
 
-    def start_game(current_game)
-        current_game(user_loaction: CLI.player_reference)
-
-    end
 
     def self.load(user)
         saved_games = self.where(user_id: user.id)
