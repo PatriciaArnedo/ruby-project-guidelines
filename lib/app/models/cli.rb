@@ -383,11 +383,26 @@ class CLI
             if @@turns < n 
                 puts "\nYou have #{n-@@turns} turn(s) left.\n"
             end
-            if @@bully == @@player
-                puts "\nThe bully caught you!\n"
-            else
-                self.check_visited(@x,@y)
-            end
+
+            self.end_game(n)
+
+            
+        end
+    end
+
+    def self.get_bullied
+        if @@bully == @@player
+            puts "\nThe bully caught you!\n"
+            Candy.bully_robs_you
+        else
+            self.check_visited(@x,@y)
+        end
+    end
+
+    def self.end_game(x)
+        if @@turns == x
+            puts "\nTrick or Treating is over! Let's see your haul!"
+            puts "\nYou got #{Candy.sum_candies} points!"
         end
     end
     
