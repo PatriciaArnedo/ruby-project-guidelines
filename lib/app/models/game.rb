@@ -47,6 +47,12 @@ class Game < ActiveRecord::Base
         self.game_complete = true
     end
 
+    def self.high_scores
+        completed_games = self.where(game_complete: true)
+        binding.pry
+        sorted_games = completed_games.sort_by {|game| game.score}
+    end
+
 
 end #Game Class
 

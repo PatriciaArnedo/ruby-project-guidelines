@@ -34,21 +34,21 @@ require 'pry'
 
 # Candy.create(more_candies)
 
-# Game.destroy_all
+Game.destroy_all
 
-# test_games = [
-#    {user_id: 11, name: "there is a", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 11, name: "chance this might", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 11, name: "work, so here's", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 11, name: "hoping that this", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 11, name: "becomes the menu", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 6, name: "a", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 8, name: "2", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 8, name: "b", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 6, name: "c", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 6, name: "k", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 8, name: "sdf", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false},
-#    {user_id: 6, name: "no", turn_count: 0, user_location: nil, bully_location: nil, bag: 0, game_complete: false}
-#    ]
+test_games = [
+   {user_id: 11, name: "there is a", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 11, name: "chance this might", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false},
+   {user_id: 11, name: "work, so here's", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 11, name: "hoping that this", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false},
+   {user_id: 11, name: "becomes the menu", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 6, name: "a", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false},
+   {user_id: 8, name: "2", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 8, name: "b", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false},
+   {user_id: 6, name: "c", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 6, name: "k", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: true},
+   {user_id: 8, name: "sdf", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false},
+   {user_id: 6, name: "no", turn_count: 0, user_location: nil, bully_location: nil, bag: nil, game_complete: false}
+   ]
 
-# Game.create(test_games)
+Game.create(test_games)
