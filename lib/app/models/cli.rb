@@ -43,6 +43,7 @@ class CLI
         end
     end
 
+    
     def self.game_menu #displays the game menu for new or load after you log in or create a new user.
         sleep(1)
         system('clear')
@@ -56,7 +57,7 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            Game.start_game(current_game)
+            # Game.start_game(current_game)
         elsif selection == "I suppose I had better finish one I've already started"
             # self.load_game_sequence
             Game.start_game(self.load_game_sequence)
