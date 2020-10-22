@@ -14,8 +14,8 @@ class CLI
                               ["🏠  21", "🏠  22", "🏠  23", "🏠  24", "🏠  25"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player_reference = [@x, @y]
-    @@bully_reference = [@bx, @by]
+    @@player_reference = [4, 4]
+    @@bully_reference = [4, 4]
     @@visited = Array.new(2){Array.new(2)}
     
     def self.visited
@@ -372,17 +372,35 @@ class CLI
             elsif selection == "Save Game"
                 Game.save_game(@@current_game)
             end
+
+            self.get_bullied
             
             if @@turns < n 
                 puts "\nYou have #{n-@@turns} turn(s) left.\n"
             end
-            if @@bully == @@player
-                puts "\nThe bully caught you!\n"
-            else
-                self.check_visited(@x,@y)
-            end
+
+            self.end_game(n)
+
+            
         end
     end
+
+    def self.get_bullied
+        if @@bully == @@player
+            puts "\nThe bully caught you!\n"
+            Candy.bully_robs_you
+        else
+            self.check_visited(@x,@y)
+        end
+    end
+
+    def self.end_game(x)
+        if @@turns == x
+            puts "\nTrick or Treating is over! Let's see your haul!"
+            #method to show high scores
+        end
+    end
+
     
     def self.check_visited(x,y)
         

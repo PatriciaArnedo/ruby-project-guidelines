@@ -12,8 +12,14 @@ class Candy < ActiveRecord::Base
 
     def self.bag_candy_by_id #called after #visited? comes up false
         # binding.pry
-        CLI.current_game.bag << @@shuffled_candy.pop.id
-        puts "\nYou have collected #{CLI.current_game.bag.last}!"
+        CLI.current_game.bag << @@shuffled_candy.pop
+        puts "\nYou got #{CLI.current_game.bag.last.name}!"
+    end
+
+    def self.bully_robs_you
+        
+        puts "The bully stole #{CLI.current_game.bag.pop.name}!"
+
     end
 
     def self.game_candy #called at beginning of new game
