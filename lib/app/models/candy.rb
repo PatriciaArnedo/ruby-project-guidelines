@@ -19,6 +19,7 @@ class Candy < ActiveRecord::Base
     def self.bully_robs_you
         
         puts "The bully stole #{CLI.current_game.bag.pop.name}!"
+        binding.pry
 
     end
 
