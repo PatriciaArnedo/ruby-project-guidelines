@@ -14,10 +14,11 @@ class CLI
                               ["🏠  21", "🏠  22", "🏠  23", "🏠  24", "🏠  25"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-    @@player_reference = [4, 4]
-    @@bully_reference = [4, 4]
+    @@player_reference = [@x, @y]
+    @@bully_reference = [@bx, @by]
     @@visited = Array.new(2){Array.new(2)}
-    
+    @@current_game = nil
+
     def self.visited
         @@visited
     end
@@ -32,6 +33,10 @@ class CLI
 
     def self.turns
         @@turns
+    end
+
+    def self.visited_coordinates
+        @@visited
     end
 
     def self.title_screen
@@ -76,7 +81,7 @@ class CLI
         end
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
-            @@current_game = Game.new(user_id: @@user.id, game_complete: false, bag: [])
+            @@current_game = Game.new(user_id: @@user.id, game_complete: false, bag: [], visited_coordinates: [])
             # binding.pry
             Candy.game_candy
             self.gameboard
@@ -95,8 +100,10 @@ class CLI
         self.game_header
         load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
             #prints the saved game names to the screen
-        @@current_game = Game.load(@@user).where(name: load_selection)
-        binding.pry
+            lga = Game.load(@@user).where(name: load_selection)
+            binding.pry
+            # @@current_game = Game.new(name: lga.name, user_id: )
+        # binding.pry
             #current_game becomes the game with the same name and user_id as the current user.
     end
 
@@ -372,8 +379,6 @@ class CLI
             elsif selection == "Save Game"
                 Game.save_game(@@current_game)
             end
-
-            self.get_bullied
             
             if @@turns < n 
                 puts "\nYou have #{n-@@turns} turn(s) left.\n"
@@ -400,7 +405,6 @@ class CLI
             puts "\nYou got #{Candy.sum_candies} points!"
         end
     end
-
     
     def self.check_visited(x,y)
         
