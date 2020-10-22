@@ -255,8 +255,12 @@ class CLI
         self.bully_movement(new_loc) 
     end
 
+    def self.bully_catches_player
+        @@bully = @@table[@bx = @x, @by = @y]
+    end
+
     def self.bully_move        
-        case rand(0..3)
+        case rand(0..4)
         
         when 0
             self.bully_move_right 
@@ -266,6 +270,8 @@ class CLI
             self.bully_move_up
         when 3
             self.bully_move_down
+        when 4
+            self.bully_catches_player
         end
     end
 
