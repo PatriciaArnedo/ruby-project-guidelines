@@ -15,6 +15,8 @@ class CLI
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
     @@player_reference = [@x, @y]
+    @@visited = Array.new(2){Array.new(2)}
+    
 
     def self.title_screen
         system('clear')
@@ -346,12 +348,30 @@ class CLI
             end
             if @@bully == @@player
                 puts "\nThe bully caught you!\n"
+            else
+                self.check_visited(@x,@y)
             end
         end
     end
     
     def self.check_visited(x,y)
-      
+        
+        has_visited = false
+        @@visited.each do |subarray|
+            if subarray[0] == x && subarray[1] == y
+            has_visited = true
+            end
+        end
+            
+        if has_visited
+            puts "\nYou have already visited this house."
+        else
+            puts "\nTrick or Treat!"
+            @@visited << [x, y]
+            #insert candy push method here
+        end
+
+        # binding.pry
     end
     
 end #CLI class
