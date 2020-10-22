@@ -57,7 +57,8 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            Game.start_game(current_game)
+            binding.pry
+            Game.start_game(@@current_game)
         elsif selection == "I suppose I had better finish one I've already started"
             # self.load_game_sequence
             Game.start_game(self.load_game_sequence)

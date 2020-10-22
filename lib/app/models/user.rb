@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
         else
             self.user_dne
         end
+        # binding.pry
     end
 
     def self.new_user
