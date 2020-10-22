@@ -23,6 +23,9 @@ class Game < ActiveRecord::Base
         end
     end
 
+    def seed_loaded_game
+    end
+
     def self.save_game(current_game)
         puts "Please enter a name to save your game as:"
         name = gets.chomp

@@ -277,7 +277,7 @@ class CLI
         end    
     end
     
-    def self.prompt_user_movement
+    def self.prompt_user_movement(turns=0, n=5)
         sleep(0.5)
         prompt = TTY::Prompt.new
         
