@@ -10,7 +10,7 @@ class Candy < ActiveRecord::Base
         #put them all in order and then print them to the screen.
     end
 
-    def bag_my_candy_by_id(candy) #called after #visited? comes up false
+    def self.bag_my_candy_by_id #called after #visited? comes up false
         CLI.current_game.bag << @@shuffled_candy.pop.id
     end
 
