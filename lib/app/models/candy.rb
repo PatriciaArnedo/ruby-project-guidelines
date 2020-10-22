@@ -12,3 +12,4 @@ end
 def bag_my_candy(candy)
     CLI.current_game.bag << candy.id  
 end
+end

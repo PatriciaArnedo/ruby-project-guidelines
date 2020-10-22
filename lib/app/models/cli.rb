@@ -59,7 +59,7 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            binding.pry
+            # binding.pry
             self.gameboard
             self.prompt_user_movement
         elsif selection == "I suppose I had better finish one I've already started"
@@ -294,7 +294,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        n = 10
+        n = 15
         while turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
@@ -307,29 +307,40 @@ class CLI
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
-                self.player_move_up
+                if @@player != self.player_move_up
+                    turns += 1
+                end
                 self.gameboard
+
             elsif selection == "Down"
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
-                self.player_move_down
+                if @@player != self.player_move_down
+                    turns += 1
+                end
                 self.gameboard
+                
             elsif selection == "Left"
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
-                self.player_move_left
+                if @@player != self.player_move_left
+                    turns += 1
+                end
                 self.gameboard
+                
             elsif selection == "Right"
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
-                self.player_move_right
+                if @@player != self.player_move_right
+                    turns += 1
+                end
                 self.gameboard
+                
             end
-            #increments turns
-            turns +=1
+            
             if turns < n 
                 puts "\nYou have #{n-turns} turn(s) left."
             end
