@@ -25,10 +25,6 @@ class Game < ActiveRecord::Base
         end
     end
 
-    def seed_loaded_game
-        
-    end
-
     def self.save_game(current_game)
         puts "Please enter a name to save your game as:"
         name = gets.chomp
@@ -46,21 +42,21 @@ class Game < ActiveRecord::Base
         CLI.title_screen
     end
 
-    def complete_game
+    def complete_game_sequence
         self.game_complete = true
     end
 
-    def self.high_scores
-        completed_games = self.where(game_complete: true) #this works
+    # def self.high_scores
+    #     completed_games = self.where(game_complete: true) #this works
         
         
         
-        sorted_games = completed_games.sort_by {|game| game.score}
-    end
+    #     sorted_games = completed_games.sort_by {|game| game.score}
+    # end
 
-    def tally_scores
-        com
-    end
+    # def tally_scores
+    #     com
+    # end
     
 
 

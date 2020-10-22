@@ -21,12 +21,15 @@ class User < ActiveRecord::Base
     def self.new_user
         ##This method functions as expected.
         username = @@prompt.ask("Please enter your name:")
+        self.username_check(username)
+        
         password = @@prompt.mask("Please enter a password:")
         confirm_password = @@prompt.mask("Please confirm your password:")
         if password != confirm_password
             puts "These passwords do not match. Please re-enter your information."
             self.new_user
         else
+            
             self.create(name: username, password: password)
             puts "\nYou have created a new user, #{username}."
             sleep(1)
@@ -67,6 +70,10 @@ class User < ActiveRecord::Base
         puts "\nWe're sorry, but that user does not exist."
         sleep(2)
         CLI.title_screen
+    end
+
+    def username_check(name)
+        
     end
 
 

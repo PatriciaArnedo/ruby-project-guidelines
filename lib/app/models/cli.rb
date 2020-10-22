@@ -72,6 +72,8 @@ class CLI
     def self.load_game_sequence #Changes prompt choices from object locations, to their saved names
         load_prompt = TTY::Prompt.new
         sleep(1)
+        system('clear')
+        self.game_header
         load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
             #prints the saved game names to the screen
         @@current_game = Game.load(@@user).where(name: load_selection)
@@ -84,6 +86,10 @@ class CLI
 
     def self.current_game
         @@current_game
+    end
+
+    def seed_loaded_attributes
+        
     end
 
     #GENERATE GAME COMPONENTS:
@@ -293,7 +299,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        n = 10
+        n = 20  
         while turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
