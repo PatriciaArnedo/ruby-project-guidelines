@@ -15,6 +15,8 @@ class CLI
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
     @@player_reference = [@x, @y]
+    @@visited = Array.new(2){Array.new(2)}
+    
 
     def self.title_screen
         system('clear')
@@ -59,7 +61,7 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            binding.pry
+            # binding.pry
             self.gameboard
             self.prompt_user_movement
         elsif selection == "I suppose I had better finish one I've already started"
@@ -293,7 +295,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        n = 10
+        n = 15
         while turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
@@ -306,43 +308,70 @@ class CLI
             if selection == "Up"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
-                self.player_move_up
+                if @@player != self.player_move_up
+                    turns += 1
+                    3.times do self.bully_move end
+                end
                 self.gameboard
+
             elsif selection == "Down"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
-                self.player_move_down
+                if @@player != self.player_move_down
+                    turns += 1
+                    3.times do self.bully_move end
+                end
                 self.gameboard
+                
             elsif selection == "Left"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
-                self.player_move_left
+                if @@player != self.player_move_left
+                    turns += 1
+                    3.times do self.bully_move end
+                end
                 self.gameboard
             elsif selection == "Right\n"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
-                self.player_move_right
+                if @@player != self.player_move_right
+                    turns += 1
+                    3.times do self.bully_move end
+                end
                 self.gameboard
             elsif selection == "Save Game"
                 Game.save_game(@@current_game)
             end
-            #increments turns
-            turns +=1
+            
             if turns < n 
-                puts "\nYou have #{n-turns} turn(s) left."
+                puts "\nYou have #{n-turns} turn(s) left.\n"
             end
             if @@bully == @@player
-                puts "\nThe bully caught you!"
+                puts "\nThe bully caught you!\n"
+            else
+                self.check_visited(@x,@y)
             end
         end
     end
     
     def self.check_visited(x,y)
-      
+        
+        has_visited = false
+        @@visited.each do |subarray|
+            if subarray[0] == x && subarray[1] == y
+            has_visited = true
+            end
+        end
+            
+        if has_visited
+            puts "\nYou have already visited this house."
+        else
+            puts "\nTrick or Treat!"
+            @@visited << [x, y]
+            #insert candy push method here
+        end
+
+        # binding.pry
     end
     
 end #CLI class
