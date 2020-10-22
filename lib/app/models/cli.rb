@@ -14,6 +14,7 @@ class CLI
                               ["🏠  21", "🏠  22", "🏠  23", "🏠  24", "🏠  25"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
+   
 
     def self.title_screen
         system('clear')
@@ -56,10 +57,10 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            Game.start_game(current_game)
+            #Game.start_game(current_game)
         elsif selection == "I suppose I had better finish one I've already started"
             # self.load_game_sequence
-            Game.start_game(self.load_game_sequence)
+            #Game.start_game(self.load_game_sequence)
         end
     end
     
@@ -79,7 +80,7 @@ class CLI
 
 
 
-    #PLAYER MOVEMENT LOGIC METHODS:
+    #GENERATE GAME COMPONENTS:
 
     def self.generate_home
         #generates player home
@@ -98,26 +99,27 @@ class CLI
         @@bully = @@table[@bx = rand(0..4), @by = rand(0..4)] 
     end
 
-    def self.print_bully_loc
-        puts "\n Be careful! The bully is at #{@@bully}!"
-        @@bully
-    end
+    # def self.print_bully_loc
+    #     puts "\nBe careful! The bully is at #{@@bully}!"
+    #     @@bully
+    # end
 
-    def self.print_player_loc
-        puts "\n You are at #{@@player}."
-        @@player
-    end
+    # def self.print_player_loc
+    #     puts "\nYou are at #{@@player}."
+    #     @@player
+    # end
     
     @@player = self.generate_player
     @@bully = self.generate_bully
     @@home = self.generate_home
    
+    #GENERATES GAME BOARD
     def self.gameboard
         
-        #GENERATES GAME BOARD
 
         system('clear')
         self.game_header
+        
         render = @@table.render(:ascii, padding: [1,2,1,2]) do |renderer| 
             renderer.border.separator = :each_row
             renderer.filter = ->(val, row_index, col_index) do
@@ -135,19 +137,28 @@ class CLI
                 end
                 #places emoji at user location
                 if row_index == @x and col_index == @y
-                    val = @@pastel.decorate("\n You 👻", :bold)
+                    val = @@pastel.decorate("\n You 🎃", :bold)
                 else
                     val
                 end
+                #emoji change when you get bullied
+                if @x == @bx and @y == @by
+                    val = @@pastel.decorate("\n 😵😵😵", :bold)
+                else
+                    val
+                end
+
             end
             
         end
 
         #prints game board
         puts render
-        self.print_player_loc
-        self.print_bully_loc
+
     end
+
+   
+
         
     #PLAYER MOVES
     def self.player_move_up
@@ -277,7 +288,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        n = 5
+        n = 30
         while turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
@@ -290,33 +301,49 @@ class CLI
             if selection == "Up"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
+                2.times do self.bully_move end
                 self.player_move_up
                 self.gameboard
             elsif selection == "Down"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
+                2.times do self.bully_move end
                 self.player_move_down
                 self.gameboard
             elsif selection == "Left"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
+                2.times do self.bully_move end
                 self.player_move_left
                 self.gameboard
             elsif selection == "Right"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
+                2.times do self.bully_move end
                 self.player_move_right
                 self.gameboard
             end
             #increments turns
             turns +=1
             if turns < n 
-                puts "You have #{n-turns} turn(s) left."
+                puts "\nYou have #{n-turns} turn(s) left."
             end
+            if @@bully == @@player 
+                puts "\nThe bully caught you!"
+            end
+
+            self.check_visited(@x,@y)
+        end
+    end
+    
+    def self.check_visited(x,y)
+        visited = []
+        
+        if !visited.any?([x,y])
+            print "\nTrick or treat!\n"
+            visited.push([x,y])
+        else
+            print "\nYou havea already visited this house.\n"
         end
     end
 
