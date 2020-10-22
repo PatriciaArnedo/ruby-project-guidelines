@@ -306,46 +306,46 @@ class CLI
             if selection == "Up"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
                 if @@player != self.player_move_up
                     turns += 1
+                    3.times do self.bully_move end
                 end
                 self.gameboard
 
             elsif selection == "Down"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
                 if @@player != self.player_move_down
                     turns += 1
+                    3.times do self.bully_move end
                 end
                 self.gameboard
                 
             elsif selection == "Left"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
                 if @@player != self.player_move_left
                     turns += 1
+                    3.times do self.bully_move end
                 end
                 self.gameboard
                 
             elsif selection == "Right"
                 system('clear')
                 self.game_header
-                3.times do self.bully_move end
                 if @@player != self.player_move_right
                     turns += 1
+                    3.times do self.bully_move end
                 end
                 self.gameboard
                 
             end
             
             if turns < n 
-                puts "\nYou have #{n-turns} turn(s) left."
+                puts "\nYou have #{n-turns} turn(s) left.\n"
             end
             if @@bully == @@player
-                puts "\nThe bully caught you!"
+                puts "\nThe bully caught you!\n"
             end
         end
     end
