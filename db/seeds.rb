@@ -20,19 +20,19 @@ require 'pry'
 # ]
 # Candy.create(candies)
 
-# more_candies = [
-#    {name: "Bazooka Joe Bubble Gum", candy_value: 4},
-#    {name: "Kit Kat Bar", candy_value: 6},
-#    {name: "Crayon", candy_value: 1},
-#    {name: "Reeces Pieces", candy_value: 6},
-#    {name: "Peanut Butter Crackers", candy_value: 2},
-#    {name: "Dum Dums", candy_value: 3},
-#    {name: "Giant Jaw Breaker", candy_value: 5},
-#    {name: "Ran out of Candy, but here's $10!", candy_value: 10},
-#    {name: "Ran out of Candy", candy_value: 0},
-# ]
+more_candies = [
+   {name: "Bazooka Joe Bubble Gum", candy_value: 4},
+   {name: "Kit Kat Bar", candy_value: 6},
+   {name: "Crayon", candy_value: 1},
+   {name: "Reeces Pieces", candy_value: 6},
+   {name: "Peanut Butter Crackers", candy_value: 2},
+   {name: "Dum Dums", candy_value: 3},
+   {name: "Giant Jaw Breaker", candy_value: 5},
+   {name: "Ran out of Candy, but here's $10!", candy_value: 10},
+   {name: "Ran out of Candy", candy_value: 0},
+]
 
-# Candy.create(more_candies)
+Candy.create(more_candies)
 
 Game.destroy_all
 

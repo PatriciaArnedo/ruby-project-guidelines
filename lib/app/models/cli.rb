@@ -60,8 +60,9 @@ class CLI
         end
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
-            @@current_game = Game.new(user_id: @@user.id, game_complete: false)
+            @@current_game = Game.new(user_id: @@user.id, game_complete: false, bag: [])
             # binding.pry
+            Candy.game_candy
             self.gameboard
             self.prompt_user_movement
         elsif selection == "I suppose I had better finish one I've already started"
@@ -381,6 +382,7 @@ class CLI
             puts "\nTrick or Treat!"
             @@visited << [x, y]
             #insert candy push method here
+            Candy.bag_candy_by_id
         end
 
         # binding.pry
