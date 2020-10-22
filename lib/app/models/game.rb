@@ -31,9 +31,12 @@ class Game < ActiveRecord::Base
         current_game.name = name
         # binding.pry
         Game.create(name: name, user_id: current_game.user_id, 
-            turn_count: current_game.turn_count, 
-            bully_location: current_game.bully_location, 
-            bag: current_game.bag, game_complete: false
+            turn_count: CLI.turns, 
+            bully_location: CLI.bully_reference, 
+            bag: current_game.bag, game_complete: false,
+            visited_coordinates: CLI.visited,
+            shuffled_candy: Candy.shuffled_candy,
+            user_location: CLI.player_reference
             )
         puts "Congratulations, your game has been saved as '#{current_game.name}.'"
         sleep(2)

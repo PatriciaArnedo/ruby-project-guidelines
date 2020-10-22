@@ -15,8 +15,24 @@ class CLI
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
     @@player_reference = [@x, @y]
+    @@bully_reference = [@bx, @by]
     @@visited = Array.new(2){Array.new(2)}
     
+    def self.visited
+        @@visited
+    end
+
+    def self.player_reference
+        @@player_reference
+    end
+
+    def self.bully_reference
+        @@bully_reference
+    end
+
+    def self.turns
+        @@turns
+    end
 
     def self.title_screen
         system('clear')
@@ -80,6 +96,7 @@ class CLI
         load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
             #prints the saved game names to the screen
         @@current_game = Game.load(@@user).where(name: load_selection)
+        binding.pry
             #current_game becomes the game with the same name and user_id as the current user.
     end
 
@@ -307,9 +324,9 @@ class CLI
         prompt = TTY::Prompt.new
         
         #repeats prompts for n turns
-        turns = 0
         n = 15
-        while turns < n do
+        @@turns = turns
+        while @@turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
                 option.choice "Down"
@@ -322,7 +339,7 @@ class CLI
                 system('clear')
                 self.game_header
                 if @@player != self.player_move_up
-                    turns += 1
+                    @@turns += 1
                     3.times do self.bully_move end
                 end
                 self.gameboard
@@ -331,7 +348,7 @@ class CLI
                 system('clear')
                 self.game_header
                 if @@player != self.player_move_down
-                    turns += 1
+                    @@turns += 1
                     3.times do self.bully_move end
                 end
                 self.gameboard
@@ -340,7 +357,7 @@ class CLI
                 system('clear')
                 self.game_header
                 if @@player != self.player_move_left
-                    turns += 1
+                    @@turns += 1
                     3.times do self.bully_move end
                 end
                 self.gameboard
@@ -348,7 +365,7 @@ class CLI
                 system('clear')
                 self.game_header
                 if @@player != self.player_move_right
-                    turns += 1
+                    @@turns += 1
                     3.times do self.bully_move end
                 end
                 self.gameboard
@@ -356,8 +373,8 @@ class CLI
                 Game.save_game(@@current_game)
             end
             
-            if turns < n 
-                puts "\nYou have #{n-turns} turn(s) left.\n"
+            if @@turns < n 
+                puts "\nYou have #{n-@@turns} turn(s) left.\n"
             end
             if @@bully == @@player
                 puts "\nThe bully caught you!\n"
