@@ -14,7 +14,7 @@ class CLI
                               ["🏠  21", "🏠  22", "🏠  23", "🏠  24", "🏠  25"]])
     @@pastel = Pastel.new
     @@font = TTY::Font.new(:doom)
-   
+    @@player_reference = [@x, @y]
 
     def self.title_screen
         system('clear')
@@ -37,6 +37,7 @@ class CLI
         
         if selection == "Log In"
             @@user = User.login
+            self.game_menu
         elsif selection == "New User"
             @@user = User.new_user
         elsif selection == "Delete User"
@@ -58,10 +59,12 @@ class CLI
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
             @@current_game = Game.new(user_id: @@user.id, game_complete: false)
-            #Game.start_game(current_game)
+            binding.pry
+            self.gameboard
+            self.prompt_user_movement
         elsif selection == "I suppose I had better finish one I've already started"
-            # self.load_game_sequence
-            #Game.start_game(self.load_game_sequence)
+            self.load_game_sequence
+            # Game.start_game(self.load_game_sequence)
         end
     end
     
@@ -79,7 +82,9 @@ class CLI
         Game.load(@@user).map {|game| game.name}
     end
 
-
+    def self.current_game
+        @@current_game
+    end
 
     #GENERATE GAME COMPONENTS:
 

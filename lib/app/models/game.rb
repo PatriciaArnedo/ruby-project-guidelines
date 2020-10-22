@@ -5,14 +5,11 @@ class Game < ActiveRecord::Base
 
     serialize :bag
     serialize :bully_location
+    serialize :user_location
 
     @@prompt = TTY::Prompt.new
 
 
-    def start_game(current_game)
-        
-
-    end
 
     def self.load(user)
         saved_games = self.where(user_id: user.id)
@@ -46,6 +43,19 @@ class Game < ActiveRecord::Base
     def complete_game
         self.game_complete = true
     end
+
+    def self.high_scores
+        completed_games = self.where(game_complete: true) #this works
+        
+        
+        
+        sorted_games = completed_games.sort_by {|game| game.score}
+    end
+
+    def tally_scores
+        com
+    end
+    
 
 
 end #Game Class

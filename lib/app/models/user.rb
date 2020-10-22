@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
         else
             self.user_dne
         end
+        # binding.pry
     end
 
     def self.new_user
@@ -25,9 +26,11 @@ class User < ActiveRecord::Base
         if password != confirm_password
             puts "These passwords do not match. Please re-enter your information."
             self.new_user
-            CLI.game_menu #another fake method just to hash out how the flow will work
         else
             self.create(name: username, password: password)
+            puts "\nYou have created a new user, #{username}."
+            sleep(1)
+            CLI.game_menu
         end
     end
 
@@ -56,7 +59,7 @@ class User < ActiveRecord::Base
         else
             puts "\nWe're sorry, but that password was incorrect."
             sleep(2)
-            return nil
+            CLI.title_screen
         end
     end
 

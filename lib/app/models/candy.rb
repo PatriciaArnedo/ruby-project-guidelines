@@ -9,7 +9,6 @@ def self.tally_points
     #put them all in order and then print them to the screen.
 end
 
-
-
-
+def bag_my_candy(candy)
+    CLI.current_game.bag << candy.id  
 end
