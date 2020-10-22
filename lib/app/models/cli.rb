@@ -199,7 +199,6 @@ class CLI
         self.player_movement(new_loc) 
     end
 
-
     #BULLY MOVES
 
     def self.bully_move_up
@@ -290,7 +289,8 @@ class CLI
                 option.choice "Up"
                 option.choice "Down"
                 option.choice "Left"
-                option.choice "Right"
+                option.choice "Right\n"
+                option.choice "Save Game"
             end
             
             #calls movement methods for each selection
@@ -312,12 +312,14 @@ class CLI
                 3.times do self.bully_move end
                 self.player_move_left
                 self.gameboard
-            elsif selection == "Right"
+            elsif selection == "Right\n"
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
                 self.player_move_right
                 self.gameboard
+            elsif selection == "Save Game"
+                Game.save_game(@@current_game)
             end
             #increments turns
             turns +=1
