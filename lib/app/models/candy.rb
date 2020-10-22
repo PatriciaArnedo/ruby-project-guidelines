@@ -22,6 +22,11 @@ class Candy < ActiveRecord::Base
 
     end
 
+    def self.sum_candies
+        scores = CLI.current_game.bag.map {|candy| candy.candy_value}
+        scores.reduce(:+)
+    end
+
     def self.game_candy #called at beginning of new game
         all_candy = Candy.all
         @@shuffled_candy = all_candy.shuffle

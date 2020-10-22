@@ -397,7 +397,7 @@ class CLI
     def self.end_game(x)
         if @@turns == x
             puts "\nTrick or Treating is over! Let's see your haul!"
-            #method to show high scores
+            puts "\nYou got #{Candy.sum_candies} points!"
         end
     end
 
