@@ -143,7 +143,7 @@ class CLI
                 end
                 #emoji change when you get bullied
                 if @x == @bx and @y == @by
-                    val = @@pastel.decorate("\n 😵😵😵", :bold)
+                    val = @@pastel.decorate("\n 😵😵😵\n", :bold)
                 else
                     val
                 end
@@ -288,7 +288,7 @@ class CLI
         
         #repeats prompts for n turns
         turns = 0
-        n = 30
+        n = 10
         while turns < n do
             selection = prompt.select("Choose a direction:") do |option|
                 option.choice "Up"
@@ -296,30 +296,29 @@ class CLI
                 option.choice "Left"
                 option.choice "Right"
             end
-            
-            #calls movement methods for each selection
+
             if selection == "Up"
                 system('clear')
                 self.game_header
-                2.times do self.bully_move end
+                3.times do self.bully_move end
                 self.player_move_up
                 self.gameboard
             elsif selection == "Down"
                 system('clear')
                 self.game_header
-                2.times do self.bully_move end
+                3.times do self.bully_move end
                 self.player_move_down
                 self.gameboard
             elsif selection == "Left"
                 system('clear')
                 self.game_header
-                2.times do self.bully_move end
+                3.times do self.bully_move end
                 self.player_move_left
                 self.gameboard
             elsif selection == "Right"
                 system('clear')
                 self.game_header
-                2.times do self.bully_move end
+                3.times do self.bully_move end
                 self.player_move_right
                 self.gameboard
             end
@@ -328,25 +327,52 @@ class CLI
             if turns < n 
                 puts "\nYou have #{n-turns} turn(s) left."
             end
-            if @@bully == @@player 
+            if @@bully == @@player
                 puts "\nThe bully caught you!"
             end
-
-            self.check_visited(@x,@y)
         end
     end
     
     def self.check_visited(x,y)
-        visited = []
-        
-        if !visited.any?([x,y])
-            print "\nTrick or treat!\n"
-            visited.push([x,y])
-        else
-            print "\nYou havea already visited this house.\n"
-        end
+      
     end
-
+    
 end #CLI class
 
 
+
+# # prompt.on(:keydown) {|value| value = "down"}
+# # prompt.on(:keyleft) {|value| value = "left"}
+# # prompt.on(:keyright) {|value| value = "right"}
+#####################################################
+# prompt.on(:keypress) do |key|
+# #calls movement methods for each selection
+# if event.key == :keyup
+#     system('clear')
+#     self.game_header
+#     2.times do self.bully_move end
+#     self.player_move_up
+#     self.gameboard
+#     turns += 1
+# elsif event.key == :keydown
+#     system('clear')
+#     self.game_header
+#     2.times do self.bully_move end
+#     self.player_move_down
+#     self.gameboard
+#     turns += 1
+# elsif event.key == :keyleft
+#     system('clear')
+#     self.game_header
+#     2.times do self.bully_move end
+#     self.player_move_left
+#     self.gameboard
+#     turns += 1
+# elsif event.key == :keyright
+#     system('clear')
+#     self.game_header
+#     2.times do self.bully_move end
+#     self.player_move_right
+#     self.gameboard
+#     turns += 1
+# end
