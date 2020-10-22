@@ -209,7 +209,6 @@ class CLI
         self.player_movement(new_loc) 
     end
 
-
     #BULLY MOVES
 
     def self.bully_move_up
@@ -288,7 +287,7 @@ class CLI
         end    
     end
     
-    def self.prompt_user_movement
+    def self.prompt_user_movement(turns=0, n=5)
         sleep(0.5)
         prompt = TTY::Prompt.new
         
@@ -300,7 +299,8 @@ class CLI
                 option.choice "Up"
                 option.choice "Down"
                 option.choice "Left"
-                option.choice "Right"
+                option.choice "Right\n"
+                option.choice "Save Game"
             end
 
             if selection == "Up"
@@ -321,12 +321,14 @@ class CLI
                 3.times do self.bully_move end
                 self.player_move_left
                 self.gameboard
-            elsif selection == "Right"
+            elsif selection == "Right\n"
                 system('clear')
                 self.game_header
                 3.times do self.bully_move end
                 self.player_move_right
                 self.gameboard
+            elsif selection == "Save Game"
+                Game.save_game(@@current_game)
             end
             #increments turns
             turns +=1

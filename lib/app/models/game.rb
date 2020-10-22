@@ -6,6 +6,8 @@ class Game < ActiveRecord::Base
     serialize :bag
     serialize :bully_location
     serialize :user_location
+    serialize :shuffled_candy
+    serialize :visited?
 
     @@prompt = TTY::Prompt.new
 
@@ -21,6 +23,10 @@ class Game < ActiveRecord::Base
         else
             saved_games
         end
+    end
+
+    def seed_loaded_game
+        
     end
 
     def self.save_game(current_game)
