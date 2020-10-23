@@ -46,7 +46,34 @@ class CLI
     def self.title_screen
         system('clear')
         self.game_header #prints title screen
+        self.ascii_art
         self.auth_sequence
+    end
+
+    def self.ascii_art
+        a_art = <<-HRD
+                                                          ^'^  _
+                                              )               (_) ^'^
+         _/_                     .---------. ((        ^'^
+         (('>                    )`'`'`'`'`( ||                 ^'^
+    _    /^|                   '/`'`'`'`'`'` ||'          ^'^
+    =>--/__|m---               /`'`'`'`'`'`'` |
+         ^^           ,,,,,,, /`'`'`'`'`'`'`'`|      "
+                    '.-------.`|`````````````|`"  .  )
+                    / .^. .^. `|  ,^^, ,^^,  |  / ` ((
+                   /  |_| |_|  `  |__| |__|  | /,-,`||
+        _         /____________`  |")| |("|  |/ |_| `|
+       (")         |  __   __  |''"==" "==''"/_______`     _
+      (' ')        | |  | |  | |   _______   |,^, ,^,|    (")
+       `  `        | |--| |--| |  ((--.--))  ||_| |_||   (' ')
+     _  ^^^ _      | |__| |("| |  ||  |  ||  |,-, ,-,|   /  /
+   ,' ',  ,' ',    |           |  ||  |  ||  ||_| |_||   ^^^
+.,,|RIP|,.|RIP|,.,""===========''=="=="=="=======""'',,....,,,,.'''''
+        HRD
+        
+
+        puts a_art
+
     end
 
     def self.game_header
@@ -56,7 +83,7 @@ class CLI
     def self.auth_sequence
         prompt = TTY::Prompt.new
 
-        selection = prompt.select("Choose an option from the menu below:") do |option|
+        selection = prompt.select("\n\n\nChoose an option from the menu below:") do |option|
             option.choice "Log In"
             option.choice "New User"
             option.choice "Delete User"
@@ -190,7 +217,7 @@ class CLI
                 end
                 #emoji change when you get bullied
                 if @x == @bx and @y == @by
-                    val = @@pastel.decorate("\n 😵😵😵\n", :bold)
+                    val = @@pastel.decorate("\n ☠️ ☠️ ☠️\n", :bold)
                 else
                     val
                 end
@@ -345,7 +372,7 @@ class CLI
         prompt = TTY::Prompt.new
         
         #repeats prompts for n turns
-        n = 7
+        n = 10
         @@turns = turns
         while @@turns < n do
             selection = prompt.select("Choose a direction:") do |option|
