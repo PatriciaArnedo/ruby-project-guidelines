@@ -89,6 +89,8 @@ class CLI
             @@current_game = Game.new(user_id: @@user.id, game_complete: false, bag: [], visited_coordinates: [])
             # binding.pry
             Candy.game_candy
+            @@visited = []
+            self.generate_home
             self.gameboard
             self.prompt_user_movement
         elsif selection == "See High Scores"
