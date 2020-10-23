@@ -26,9 +26,14 @@ class Candy < ActiveRecord::Base
 
     end
 
+    #sums candies
     def self.sum_candies
         scores = CLI.current_game.bag.map {|candy| candy.candy_value}
-        scores.reduce(:+)
+        if scores.count == 0
+            return 0
+        else
+            scores.reduce(:+)
+        end
     end
 
     def self.game_candy #called at beginning of new game

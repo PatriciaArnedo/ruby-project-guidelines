@@ -291,7 +291,7 @@ class CLI
     end
 
     def self.bully_move        
-        case rand(0..4)
+        case rand(0..7)
         
         when 0
             self.bully_move_right 
@@ -303,6 +303,12 @@ class CLI
             self.bully_move_down
         when 4
             self.bully_catches_player
+        when 5
+            self.bully_move_right 
+        when 6
+            self.bully_move_left
+        when 7
+            self.bully_move_up
         end
     end
 
@@ -331,7 +337,7 @@ class CLI
         prompt = TTY::Prompt.new
         
         #repeats prompts for n turns
-        n = 15
+        n = 7
         @@turns = turns
         while @@turns < n do
             selection = prompt.select("Choose a direction:") do |option|
@@ -406,6 +412,11 @@ class CLI
         if @@turns == x
             puts "\nTrick or Treating is over! Let's see your haul!"
             puts "\nYou got #{Candy.sum_candies} points!"
+            sleep(2)
+            Game.save_game(@@current_game)
+             
+            Game.display_highscores
+            
         end
     end
     
