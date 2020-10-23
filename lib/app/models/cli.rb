@@ -19,6 +19,10 @@ class CLI
     @@visited = Array.new(2){Array.new(2)}
     @@current_game = nil
 
+    def self.user=(user)
+        @@user = user
+    end
+
     def self.visited
         @@visited
     end
@@ -77,7 +81,8 @@ class CLI
 
         selection = prompt.select("What would you like to do today?\n") do |option|
             option.choice "Ooh, ooh, I want to start a new game!!!\n"
-            option.choice "I suppose I had better finish one I've already started"
+            # option.choice "I suppose I had better finish one I've already started"
+             option.choice "See High Scores"
         end
         
         if selection == "Ooh, ooh, I want to start a new game!!!\n"
@@ -86,26 +91,30 @@ class CLI
             Candy.game_candy
             self.gameboard
             self.prompt_user_movement
-        elsif selection == "I suppose I had better finish one I've already started"
-            self.load_game_sequence
-            # Game.start_game(self.load_game_sequence)
+        elsif selection == "See High Scores"
+             Game.display_highscores
+             # self.title_screen
         end
+
+        # elsif selection == "I suppose I had better finish one I've already started"
+        #     self.load_game_sequence
+            # Game.start_game(self.load_game_sequence)
     end
     
 
-    def self.load_game_sequence #Changes prompt choices from object locations, to their saved names
-        load_prompt = TTY::Prompt.new
-        sleep(1)
-        system('clear')
-        self.game_header
-        load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
-            #prints the saved game names to the screen
-            lga = Game.load(@@user).where(name: load_selection)
-            binding.pry
-            # @@current_game = Game.new(name: lga.name, user_id: )
-        # binding.pry
-            #current_game becomes the game with the same name and user_id as the current user.
-    end
+    # def self.load_game_sequence #Changes prompt choices from object locations, to their saved names
+    #     load_prompt = TTY::Prompt.new
+    #     sleep(1)
+    #     system('clear')
+    #     self.game_header
+    #     load_selection = load_prompt.select("Which game would you like to load?\n", self.load_name)
+    #         #prints the saved game names to the screen
+    #         lga = Game.load(@@user).where(name: load_selection)
+    #         binding.pry
+    #         # @@current_game = Game.new(name: lga.name, user_id: )
+    #     # binding.pry
+    #         #current_game becomes the game with the same name and user_id as the current user.
+    # end
 
     def self.load_name
         Game.load(@@user).map {|game| game.name}
@@ -115,9 +124,6 @@ class CLI
         @@current_game
     end
 
-    def seed_loaded_attributes
-        
-    end
 
     #GENERATE GAME COMPONENTS:
 
@@ -345,7 +351,7 @@ class CLI
                 option.choice "Down"
                 option.choice "Left"
                 option.choice "Right\n"
-                option.choice "Save Game"
+                # option.choice "Save Game"
             end
 
             if selection == "Up"
@@ -383,10 +389,11 @@ class CLI
                     3.times do self.bully_move end
                 end
                 self.gameboard
-
-            elsif selection == "Save Game"
-                Game.save_game(@@current_game)
             end
+
+            # elsif selection == "Save Game"
+            #     Game.save_game(@@current_game)
+            # end
             
             if @@turns < n 
                 puts "\nYou have #{n-@@turns} turn(s) left.\n"

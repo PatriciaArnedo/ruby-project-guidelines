@@ -20,21 +20,19 @@ class User < ActiveRecord::Base
 
     def self.new_user
         ##This method functions as expected.
-        username = @@prompt.ask("Please enter your name:")
-        self.username_check(username)
-        
+        username = @@prompt.ask("Please enter your name:")      
         password = @@prompt.mask("Please enter a password:")
         confirm_password = @@prompt.mask("Please confirm your password:")
         if password != confirm_password
             puts "These passwords do not match. Please re-enter your information."
             self.new_user
         else
-            
-            self.create(name: username, password: password)
+            user_hold = self.create(name: username, password: password)
+            CLI.user=(user_hold)
             puts "\nYou have created a new user, #{username}."
             sleep(1)
-            CLI.game_menu
         end
+        CLI.game_menu
     end
 
     def self.delete_user

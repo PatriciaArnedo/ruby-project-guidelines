@@ -59,22 +59,20 @@ class Game < ActiveRecord::Base
         # binding.pry
         puts "\n\nHIGH SCORES!!!!\n"
         i = 0
-        while i < 11
+        while i < 10
             puts "#{i + 1}. #{players[i]} - #{scores[i]}"
             i+=1
         end
 
-        prompt = Prompt.new
-        # scores.each{|score| puts score}
-        # userids = max_scores.map{|game| game.user_id} 
+        prompt = TTY::Prompt.new
 
-        # users = userids.each do |uid|
-        #     User.all.where(User.id == uid)
-        # end
+        selection = prompt.select("Return to Title Screen?") do |option|
+            option.choice "Go"
+        end
 
-        # names = users.map{|user| user.name}
-
-        # names.each{|name| puts name}
+        if selection == "Go"
+            CLI.title_screen
+        end
 
     end
 
