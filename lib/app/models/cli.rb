@@ -350,7 +350,7 @@ class CLI
                     3.times do self.bully_move end
                 end
                 self.gameboard
-
+        
             elsif selection == "Down"
                 system('clear')
                 self.game_header
@@ -368,6 +368,7 @@ class CLI
                     3.times do self.bully_move end
                 end
                 self.gameboard
+
             elsif selection == "Right\n"
                 system('clear')
                 self.game_header
@@ -376,6 +377,7 @@ class CLI
                     3.times do self.bully_move end
                 end
                 self.gameboard
+
             elsif selection == "Save Game"
                 Game.save_game(@@current_game)
             end
@@ -384,9 +386,10 @@ class CLI
                 puts "\nYou have #{n-@@turns} turn(s) left.\n"
             end
 
+            
+            self.get_bullied
             self.end_game(n)
 
-            
         end
     end
 

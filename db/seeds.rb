@@ -30,6 +30,7 @@ more_candies = [
    {name: "Giant Jaw Breaker", candy_value: 5},
    {name: "Ran out of Candy, but here's $10!", candy_value: 10},
    {name: "Ran out of Candy", candy_value: 0},
+   {name: "a full size snickers", candy_value: 8}
 ]
 
 Candy.create(more_candies)
