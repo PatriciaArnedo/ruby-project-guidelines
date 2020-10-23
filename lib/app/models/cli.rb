@@ -326,7 +326,7 @@ class CLI
     end
 
     def self.bully_move        
-        case rand(0..7)
+        case rand(0..8)
         
         when 0
             self.bully_move_right 
@@ -344,7 +344,10 @@ class CLI
             self.bully_move_left
         when 7
             self.bully_move_up
+        when 8
+            self.bully_move_down
         end
+
     end
 
     def self.bully_movement(location)
